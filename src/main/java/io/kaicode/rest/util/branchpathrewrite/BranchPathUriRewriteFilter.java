@@ -1,36 +1,32 @@
 package io.kaicode.rest.util.branchpathrewrite;
 
-import org.apache.catalina.comet.CometEvent;
-import org.apache.catalina.comet.CometFilterChain;
-import org.apache.catalina.filters.RequestFilter;
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BranchPathUrlRewriteFilter extends RequestFilter {
+public class BranchPathUriRewriteFilter implements Filter {
 
 	public static final String ORIGINAL_BRANCH_PATH_URI = "originalBranchPathURI";
 	private final List<Pattern> patterns;
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public BranchPathUrlRewriteFilter(String... patternStrings) {
+	public BranchPathUriRewriteFilter(String... patternStrings) {
 		patterns = new ArrayList<>();
 		for (String pattern : patternStrings) {
 			patterns.add(Pattern.compile(pattern));
 		}
+	}
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
 	@Override
@@ -54,6 +50,11 @@ public class BranchPathUrlRewriteFilter extends RequestFilter {
 		filterChain.doFilter(servletRequest, servletResponse);
 	}
 
+	@Override
+	public void destroy() {
+
+	}
+
 	private String rewriteUri(String requestURI) {
 		if (requestURI != null) {
 			for (Pattern pattern : patterns) {
@@ -69,12 +70,4 @@ public class BranchPathUrlRewriteFilter extends RequestFilter {
 		return null;
 	}
 
-	@Override
-	public void doFilterEvent(CometEvent cometEvent, CometFilterChain cometFilterChain) throws IOException, ServletException {
-	}
-
-	@Override
-	protected Log getLogger() {
-		return null;
-	}
 }

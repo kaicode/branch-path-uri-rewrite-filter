@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 		classes = TestApplication.class
 )
-public class BranchPathUrlRewriteFilterTest {
+public class BranchPathUriRewriteFilterTest {
 
 	@Autowired
 	private TestRestTemplate restTemplate;

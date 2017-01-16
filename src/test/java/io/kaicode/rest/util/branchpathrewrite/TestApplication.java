@@ -11,7 +11,7 @@ public class TestApplication {
 	@Bean
 	public FilterRegistrationBean getUrlRewriteFilter() {
 		// Encode branch paths in uri to allow request mapping to work
-		return new FilterRegistrationBean(new BranchPathUrlRewriteFilter(
+		return new FilterRegistrationBean(new BranchPathUriRewriteFilter(
 				"/(.*)/books",
 				"/(.*)/kites"
 		));
