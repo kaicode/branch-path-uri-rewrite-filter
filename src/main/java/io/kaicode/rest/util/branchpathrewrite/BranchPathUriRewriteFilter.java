@@ -34,6 +34,10 @@ public class BranchPathUriRewriteFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		if (servletRequest.getAttribute(ORIGINAL_BRANCH_PATH_URI) == null) {
 			String originalRequestURI = request.getRequestURI();
+			String contextPath = request.getContextPath();
+			if (contextPath != null) {
+				originalRequestURI = originalRequestURI.substring(contextPath.length());
+			}
 			final String rewrittenRequestURI = rewriteUri(originalRequestURI);
 			if (rewrittenRequestURI != null) {
 				servletRequest = new HttpServletRequestWrapper(request) {
