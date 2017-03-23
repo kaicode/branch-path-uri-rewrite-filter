@@ -65,7 +65,7 @@ public class BranchPathUriRewriteFilter implements Filter {
 				final Matcher matcher = pattern.matcher(requestURI);
 				if (matcher.matches()) {
 					final String path = matcher.group(1);
-					String rewrittenURI = requestURI.replace(path, path.replace("/", "|").replace("%2F", "|"));
+					String rewrittenURI = requestURI.replace(path, path.replace("/", "|"));
 					logger.debug("Request URI '{}' matches pattern '{}', rewritten URI '{}'", requestURI, pattern, rewrittenURI);
 					return rewrittenURI;
 				}
