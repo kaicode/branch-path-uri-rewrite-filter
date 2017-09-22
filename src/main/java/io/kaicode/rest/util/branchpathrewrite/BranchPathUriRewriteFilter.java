@@ -17,16 +17,13 @@ public class BranchPathUriRewriteFilter implements Filter {
 	public static final String ORIGINAL_BRANCH_PATH_URI = "originalBranchPathURI";
 	private final List<Pattern> patterns;
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private boolean rewriteEncodedSlash;
 
 	public BranchPathUriRewriteFilter(String... patternStrings) {
 		patterns = new ArrayList<>();
 		for (String pattern : patternStrings) {
 			patterns.add(Pattern.compile(pattern));
 		}
-	}
-
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
 	@Override
@@ -54,6 +51,15 @@ public class BranchPathUriRewriteFilter implements Filter {
 		filterChain.doFilter(servletRequest, servletResponse);
 	}
 
+	public BranchPathUriRewriteFilter rewriteEncodedSlash() {
+		rewriteEncodedSlash = true;
+		return this;
+	}
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+	}
+
 	@Override
 	public void destroy() {
 
@@ -65,13 +71,21 @@ public class BranchPathUriRewriteFilter implements Filter {
 				final Matcher matcher = pattern.matcher(requestURI);
 				if (matcher.matches()) {
 					final String path = matcher.group(1);
-					String rewrittenURI = requestURI.replace(path, path.replace("/", "|"));
+					String rewrittenURI = requestURI.replace(path, replaceSlash(path));
 					logger.debug("Request URI '{}' matches pattern '{}', rewritten URI '{}'", requestURI, pattern, rewrittenURI);
 					return rewrittenURI;
 				}
 			}
 		}
 		return null;
+	}
+
+	private String replaceSlash(String path) {
+		path = path.replace("/", "|");
+		if (rewriteEncodedSlash) {
+			path = path.replace("%2F", "|");
+		}
+		return path;
 	}
 
 }
