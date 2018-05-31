@@ -12,14 +12,14 @@ public class TestController {
 	public String books(@PathVariable String branch) {
 		// branch value comes in with '|' pipe separators
 		// swap back to '/' slash
-		branch = BranchPathUriUtil.parseBranchPath(branch);
+		branch = BranchPathUriUtil.decodePath(branch);
 
 		return "Books on path " + branch;
 	}
 
 	@RequestMapping("/{branch}/kites")
 	public String kites(@PathVariable String branch) {
-		branch = BranchPathUriUtil.parseBranchPath(branch);
+		branch = BranchPathUriUtil.decodePath(branch);
 		return "Kites on path " + branch;
 	}
 
