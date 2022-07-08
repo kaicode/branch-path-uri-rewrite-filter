@@ -41,6 +41,11 @@ public class BranchPathUriRewriteFilter implements Filter {
 					public String getRequestURI() {
 						return rewrittenRequestURI;
 					}
+
+					// Fix issue when upgrading to Spring boot 2.7 with spring web 5.3.20
+					// DefaultRequestPath class has added validateContextPath method.
+					@Override
+					public String getContextPath() { return "/";}
 				};
 				servletRequest.setAttribute(ORIGINAL_BRANCH_PATH_URI, originalRequestURI);
 				servletRequest.getRequestDispatcher(rewrittenRequestURI).forward(servletRequest, servletResponse);
