@@ -6,7 +6,7 @@
 
     <groupId>io.kaicode</groupId>
     <artifactId>branch-path-uri-rewrite-filter</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>5.0.0</version>
 
     <properties>
         <java.version>17</java.version>
