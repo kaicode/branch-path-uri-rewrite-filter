@@ -33,13 +33,28 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.5.14</version>
+            <version>4.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>3.5.14</version>
+            <version>4.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Boot 4 moved TestRestTemplate out of spring-boot-test into this module -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-resttestclient</artifactId>
+            <version>4.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- TestRestTemplateTestAutoConfiguration needs RestTemplateBuilder, which
+             spring-boot-resttestclient does not pull in transitively -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
+            <version>4.1.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
